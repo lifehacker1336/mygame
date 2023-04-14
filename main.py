@@ -22,7 +22,7 @@ class Archer:
         self.agility = 10
 
 
-# добавление объектов класса в лист
+# добавление объектов классов в лист
 def registration():
     swordman = Swordman()
     archer = Archer()
@@ -32,7 +32,7 @@ def registration():
     return classes
 
 
-# класс игрока с его характеристиками и взаимодействия с игроком
+# класс игрока с его характеристиками и взаимодействия с игроком (взаимодействия с игроком в плане методы взаимодействия? или кто взаимодействует?)
 class Player:
     player_id: int
     role: str
@@ -73,9 +73,9 @@ class Player:
 
     # метод для повышения уровня
     def lvl_up(self, player):
-        gamer.lvl += gamer.lvl
+        gamer.lvl += gamer.lvl #(то есть 1 + 1, потом 2 + 2 и тп?) нужно gamer.lvl += 1)
         gamer.experience = 0
-        self.get_stats()
+        self.get_stats() # он вызовется если он ниже определён?
 
     # метод для получения и повышения характеристик
     def get_stats(self):
@@ -99,10 +99,10 @@ class Armor(Item):
     hp: int
     chance_of_evasion: float
 
-    # Добавление всех предметов в лист
+    # Добавление всех предметов в лист (навреное не всех а каждого предмета (по-отдельности ведь)
     def get_armor_list(self):
         armor_list = list()
-        armor_list.append(helmet.id)
+        armor_list.append(helmet.id) # почему хелмет..
         print(armor_list)
 
 

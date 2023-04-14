@@ -74,6 +74,7 @@ class Player:
     # метод для повышения уровня
     def lvl_up(self, player):
         gamer.lvl += gamer.lvl
+        gamer.experience = 0
         self.get_stats()
 
     # метод для получения и повышения характеристик
@@ -137,6 +138,6 @@ helmet = Helmet()
 # gamer.get_role_and_atributes(gamer)
 # gameplay.lvl_check()
 # print(gamer.role, gamer.base_strength, gamer.base_agility)
-helmet.stats()
+
 helmet.get_armor_list()
 

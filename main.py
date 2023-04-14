@@ -1,3 +1,4 @@
+# класс мечник для получения аттрибутов
 class Swordman:
     name: str
     strength: int
@@ -9,6 +10,7 @@ class Swordman:
         self.agility = 5
 
 
+# класс лучник для получения аттрибутов
 class Archer:
     name: str
     strength: int
@@ -20,6 +22,7 @@ class Archer:
         self.agility = 10
 
 
+# добавление объектов класса в лист
 def registration():
     swordman = Swordman()
     archer = Archer()
@@ -29,16 +32,9 @@ def registration():
     return classes
 
 
-class Gameplay:
-
-    def choose_class(self, player):
-        choose = input("Выберите класс: swordman или archer\n")
-        return choose
-
-    # def choose_class(self):    #     self.choose = input("Выберите класс: swordman или archer\n")    #     player.get_role()    #     return gameplay.choose
-
-
+# класс игрока с его характеристиками и взаимодействия с игроком
 class Player:
+    player_id: int
     role: str
     base_strength: int = 0
     base_agility: int = 0
@@ -56,6 +52,7 @@ class Player:
     experience: int = 0
     gold: int
 
+    # метод для назначения класса  и начальных аттрибутов пользователю
     def get_role_and_atributes(self, player):
         status = True
         choose = gameplay.choose_class(player)
@@ -74,13 +71,72 @@ class Player:
             print("Ввод не верный, попробуй еще раз")
             self.get_role_and_atributes(player)
 
-    def lvl_up(self, player):  # переделать эту хуйню
-         pass
+    # метод для повышения уровня
+    def lvl_up(self, player):
+        gamer.lvl += gamer.lvl
+        self.get_stats()
 
+    # метод для получения и повышения характеристик
+    def get_stats(self):
+        gamer.strength = gamer.base_strength+gamer.lvl*5
+        gamer.agility = gamer.base_agility+gamer.lvl*5
+
+
+# Класс для всех предметов
+class Item:
+    id: int
+    cost: int
+    rarety: int
+
+    def a(self):
+        pass
+
+# Класс для всех защитных предметов
+class Armor(Item):
+    armor: int
+    strength: 1
+    hp: int
+    chance_of_evasion: float
+
+    # Добавление всех предметов в лист
+    def get_armor_list(self):
+        armor_list = list()
+        armor_list.append(helmet.id)
+        print(armor_list)
+
+
+
+# класс для создания предмета helmet
+class Helmet(Armor):
+
+    def __init__(self):
+        helmet.id = 1
+        helmet.hp = 100
+
+
+# класс для всех игровых методов
+class Gameplay:
+
+    # выбор пользователем класса
+    def choose_class(self, player):
+        choose = input("Выберите класс: swordman или archer\n")
+        return choose
+
+    # Проверка достижения уровня
+    def lvl_check(self):
+        needed_experience = 100*gamer.lvl + 100*(gamer.lvl-1)**2
+        if gamer.experience >= needed_experience:
+            gamer.lvl_up(gamer)
+        else:
+            pass
 
 
 gamer = Player()
 gameplay = Gameplay()
-gamer.get_role_and_atributes(gamer)
-print(gamer.role, gamer.base_strength, gamer.base_agility)
+helmet = Helmet()
+# gamer.get_role_and_atributes(gamer)
+# gameplay.lvl_check()
+# print(gamer.role, gamer.base_strength, gamer.base_agility)
+helmet.stats()
+helmet.get_armor_list()
 

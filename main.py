@@ -9,7 +9,7 @@ class Swordman:
 
     def __init__(self):
         self.name = "swordman"
-        self.strength = 10
+        self.strength = 10000
         self.agility = 5
 
 
@@ -76,14 +76,27 @@ class Player:
 
     # метод для повышения уровня
     def lvl_up(self, player):
-        gamer.lvl += 1
-        gamer.experience = 0
+        self.lvl += 1
+        self.experience = 0
         self.get_stats()  # он вызовется если он ниже определён?
 
     # метод для получения и повышения характеристик
     def get_stats(self):
-        gamer.strength = gamer.base_strength + gamer.lvl * 5
-        gamer.agility = gamer.base_agility + gamer.lvl * 5
+        self.strength = self.base_strength + self.lvl * 5
+        self.agility = self.base_agility + self.lvl * 5
+        self.strength = self.base_strength + self.lvl * 3
+        self.agility = self.base_agility + self.lvl * 2
+        self.hp = self.strength * 15
+        self.damage = self.strength * 2
+        self.critical_chance = self.strength * 0.005
+        if self.critical_chance > 0.2:
+            self.critical_chance = 0.2
+        self.critical_damage = 1 + (self.strength * self.agility * 0.002)
+        self.armor = int(self.agility * 0.15)
+        self.chance_of_evasion = self.agility * 0.005
+        if self.chance_of_evasion > 0.3:
+            self.chance_of_evasion = 0.3
+        self.attack_speed = 1 + self.agility * 0.005
 
 
 # Класс для всех предметов
@@ -114,6 +127,8 @@ class Location:
     mob_list: list
     drop_list: list
 
+    def generate_enemy(self):
+        pass
 
 class Forest(Location):
     def __init__(self):
@@ -124,6 +139,7 @@ class Forest(Location):
         self.mob_list = list()
         self.mob_list.append(zombie_enemy)
         return self.mob_list
+
 
 
 class mob:
@@ -157,7 +173,16 @@ class Zombie(mob):
         self.strength = self.base_strength + self.lvl * 3
         self.agility = self.base_agility + self.lvl * 2
         self.hp = self.strength * 15
-
+        self.damage = self.strength * 5
+        self.critical_chance = self.strength * 0.005
+        if self.critical_chance > 0.2:
+            self.critical_chance = 0.2
+        self.critical_damage = self.damage * (self.strength * self.agility * 0.002)
+        self.armor = int(self.agility * 0.15)
+        self.chance_of_evasion = self.agility * 0.005
+        if self.chance_of_evasion > 0.3:
+            self.chance_of_evasion = 0.3
+        self.attack_speed = 1 + self.agility * 0.005
 
 
 # класс для всех игровых методов
@@ -182,12 +207,12 @@ gameplay = Gameplay()
 helmet = Helmet()
 zombie_enemy = Zombie()
 forest = Forest()
-# gamer.get_role_and_atributes(gamer)
-# gameplay.lvl_check()
-# print(gamer.strength, gamer.agility)
-# print(gamer.role, gamer.base_strength, gamer.base_agility)
-zombie_enemy.get_lvl()
-zombie_enemy.get_stats()
-print(zombie_enemy.lvl, zombie_enemy.strength, zombie_enemy.agility)
-forest.get_mob_list()
+gamer.get_role_and_atributes(gamer)
+gamer.get_stats()
+# print(gamer.strength, gamer.agility, gamer.damage, gamer.hp, gamer.critical_damage, gamer.armor)
+
+# zombie_enemy.get_lvl()
+# zombie_enemy.get_stats()
+# print(zombie_enemy.lvl, zombie_enemy.strength, zombie_enemy.agility)
+# forest.get_mob_list()
 

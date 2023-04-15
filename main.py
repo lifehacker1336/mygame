@@ -1,3 +1,6 @@
+import random
+
+
 # класс мечник для получения аттрибутов
 class Swordman:
     name: str
@@ -49,7 +52,7 @@ class Player:
     attack_speed: float
     inventory: list
     lvl: int = 1
-    experience: int = 0
+    experience: int = 100
     gold: int
 
     # метод для назначения класса  и начальных аттрибутов пользователю
@@ -73,14 +76,14 @@ class Player:
 
     # метод для повышения уровня
     def lvl_up(self, player):
-        gamer.lvl += gamer.lvl #(то есть 1 + 1, потом 2 + 2 и тп?) нужно gamer.lvl += 1)
+        gamer.lvl += 1
         gamer.experience = 0
-        self.get_stats() # он вызовется если он ниже определён?
+        self.get_stats()  # он вызовется если он ниже определён?
 
     # метод для получения и повышения характеристик
     def get_stats(self):
-        gamer.strength = gamer.base_strength+gamer.lvl*5
-        gamer.agility = gamer.base_agility+gamer.lvl*5
+        gamer.strength = gamer.base_strength + gamer.lvl * 5
+        gamer.agility = gamer.base_agility + gamer.lvl * 5
 
 
 # Класс для всех предметов
@@ -89,30 +92,72 @@ class Item:
     cost: int
     rarety: int
 
-    def a(self):
-        pass
 
 # Класс для всех защитных предметов
 class Armor(Item):
     armor: int
-    strength: 1
     hp: int
     chance_of_evasion: float
-
-    # Добавление всех предметов в лист (навреное не всех а каждого предмета (по-отдельности ведь)
-    def get_armor_list(self):
-        armor_list = list()
-        armor_list.append(helmet.id) # почему хелмет..
-        print(armor_list)
-
 
 
 # класс для создания предмета helmet
 class Helmet(Armor):
+    def __init__(self):
+        self.id = 1
+        self.hp = 100
+        self.armor = 2
+
+
+class Location:
+    id: int
+    needed_lvl: int
+    mob_list: list
+    drop_list: list
+
+
+class Forest(Location):
+    def __init__(self):
+        self.id = 1
+        self.needed_lvl = 1
+
+    def get_mob_list(self):
+        self.mob_list = list()
+        self.mob_list.append(zombie_enemy)
+        return self.mob_list
+
+
+class mob:
+    mob_name: str
+    base_strength: int = 1
+    base_agility: int = 2
+    strength: int
+    agility: int
+    damage: int
+    hp: int
+    critical_chance: float
+    critical_damage: float
+    armor: int
+    chance_of_evasion: float
+    attack_speed: float
+    lvl: int
+    gold: int
+
+
+class Zombie(mob):
 
     def __init__(self):
-        helmet.id = 1
-        helmet.hp = 100
+        self.mob_name = "zombie"
+
+    def get_lvl(self):
+        self.lvl = random.randint(gamer.lvl-2, gamer.lvl+2)
+        if self.lvl <= 0:
+            self.lvl = 1
+
+    def get_stats(self):
+        self.strength = self.base_strength + self.lvl * 3
+        self.agility = self.base_agility + self.lvl * 2
+        self.hp = self.strength * 15
+
 
 
 # класс для всех игровых методов
@@ -125,7 +170,7 @@ class Gameplay:
 
     # Проверка достижения уровня
     def lvl_check(self):
-        needed_experience = 100*gamer.lvl + 100*(gamer.lvl-1)**2
+        needed_experience = 100 * gamer.lvl + 100 * (gamer.lvl - 1) ** 2
         if gamer.experience >= needed_experience:
             gamer.lvl_up(gamer)
         else:
@@ -135,9 +180,14 @@ class Gameplay:
 gamer = Player()
 gameplay = Gameplay()
 helmet = Helmet()
+zombie_enemy = Zombie()
+forest = Forest()
 # gamer.get_role_and_atributes(gamer)
 # gameplay.lvl_check()
+# print(gamer.strength, gamer.agility)
 # print(gamer.role, gamer.base_strength, gamer.base_agility)
-
-helmet.get_armor_list()
+zombie_enemy.get_lvl()
+zombie_enemy.get_stats()
+print(zombie_enemy.lvl, zombie_enemy.strength, zombie_enemy.agility)
+forest.get_mob_list()
 

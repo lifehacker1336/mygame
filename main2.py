@@ -53,8 +53,8 @@ class Player:
     attack_speed: float
     inventory: list
     lvl: int = 1
-    experience: int = 350
-    remaining_experience: int
+    experience: int = 0
+    needed_experience: int = 0
     gold: int
 
     # метод для назначения класса  и начальных аттрибутов пользователю
@@ -75,14 +75,6 @@ class Player:
         if not status:
             print("Ввод не верный, попробуй еще раз")
             self.get_role_and_atributes(player)
-
-    # метод для повышения уровня
-    def lvl_up(self, player):
-        a = gameplay.lvl_check()
-        self.lvl += 1
-        self.experience = self.experience - a
-        self.get_stats()
-
 
     # метод для получения и повышения характеристик
     def get_stats(self):
@@ -214,24 +206,29 @@ class Gameplay:
 
     # Проверка достижения уровня
 
-    def lvl_check(self):
-        needed_experience = 100 * gamer.lvl + 100 * ((gamer.lvl - 1) ** 2)
-        gamer.remaining_experience = needed_experience - gamer.experience
-        if gamer.experience >= needed_experience:
-            gamer.lvl_up(gamer)
-            return needed_experience
+    def lvl_check_and_up(self):
+        gamer.needed_experience = 100 * gamer.lvl + 100 * ((gamer.lvl - 1) ** 2)
+        while True:
+            if gamer.experience >= gamer.needed_experience:
+                gamer.lvl += 1
+                gamer.experience = gamer.experience - gamer.needed_experience
+                gamer.needed_experience = 100 * gamer.lvl + 100 * ((gamer.lvl - 1) ** 2)
+                gamer.get_stats()
+            else:
+               return False
+
 
 
     def show_stats(self):
-        self.lvl_check()
+        self.lvl_check_and_up()
         print(" Уровень - ", gamer.lvl, "\n",
-              "Опыт - ", gamer.experience,"\n" ,"Опыт для повышения уровня -  ", gamer.remaining_experience,  "\n",
+              "Опыт - ", gamer.experience,"\n" ,"Опыт для повышения уровня -  ", gamer.needed_experience - gamer.experience,  "\n",
               "Сила - ", gamer.strength, "\n",
               "Ловкость - ", gamer.agility, "\n",
               "Урон - ", gamer.damage, "\n",
               "Хп - ", gamer.hp, "\n",
               "Шанс крит урона - ", round(gamer.critical_chance * 100, 2), "%\n",
-              "Крит урона - ", gamer.critical_damage * 1000, "%\n",
+              "Крит урона - ", round(gamer.critical_damage * 1000, 2), "%\n",
               "Броня - ", gamer.armor, "\n",
               "Шанс уклонения - ", round(gamer.chance_of_evasion * 100, 2), "%\n",
               "Скорость атаки - ", gamer.attack_speed, "\n",
@@ -262,8 +259,9 @@ get_location_list()
 # zombie_enemy.get_stats()
 # print(zombie_enemy.lvl, zombie_enemy.strength, zombie_enemy.agility)
 # forest.get_mob_list()
+gameplay.lvl_check_and_up()
 gamer.get_role_and_atributes(gamer)
 gamer.get_stats()
 gameplay.menu(gamer)
-
+gameplay.lvl_check_and_up()
 
